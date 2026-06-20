@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="az" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Funny — Sənin Şəxsi Dərs Masan</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            cream: '#F9F6F0',
+                            slate: '#2B2D42',
+                            charcoal: '#1A1C23',
+                            darkCard: '#242834',
+                            offWhite: '#ECEFF4',
+                            slateGray: '#3B4252',
+                        },
+                        accent: {
+                            sage: '#A8DADC',
+                            rose: '#E63946',
+                            butter: '#F4A261',
+                            lavender: '#B5A6C9',
+                        }
+                    },
+                    borderWidth: { '3': '3px' },
+                    boxShadow: {
+                        'brutal': '5px 5px 0px 0px #2B2D42',
+                        'brutal-dark': '5px 5px 0px 0px #3B4252',
+                        'brutal-hover': '2px 2px 0px 0px #2B2D42',
+                        'brutal-hover-dark': '2px 2px 0px 0px #3B4252'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, button, span { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #3B4252; border-radius: 10px; }
+    </style>
+</head>
+<body 
+    x-data="studyDashboard()" 
+    x-init="initApp()"
+    :class="darkMode ? 'dark bg-brand-charcoal text-brand-offWhite' : 'bg-brand-cream text-brand-slate'"
+    class="min-h-screen transition-colors duration-300 antialiased selection:bg-accent-butter"
+>
+
+    <div 
+        x-show="showDistractionOverlay" 
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:leave="transition ease-in duration-200"
+        class="fixed inset-0 z-50 bg-black/90 flex flex-col items-center justify-center text-center p-4"
+    >
+        <div class="text-7xl animate-bounce mb-4">🚨</div>
+        <h1 class="text-4xl font-extrabold text-accent-rose mb-2">HƏBS OLUNDUN!</h1>
+        <p class="text-xl text-brand-offWhite max-w-md font-medium mb-6">
+            Taymer işlədiyi halda başqa tablara keçib fırlanırdın? Gözümüz üzərindədir. Geri qayıt və dərsini elə!
+        </p>
+        <button 
+            @click="closeDistractionOverlay()" 
+            class="px-8 py-4 bg-accent-sage text-brand-slate font-bold text-lg rounded-xl border-3 border-brand-slate shadow-brutal hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
+        >
+            Söz verirəm, qayıdıram 📚
+        </button>
+    </div>
+
+    <div class="max-w-[1400px] mx-auto p-4 md:p-8 flex flex-col gap-6">
+        
+        <header :class="darkMode ? 'bg-brand-darkCard border-brand-slateGray shadow-brutal-dark' : 'bg-white border-brand-slate shadow-brutal'" class="w-full border-3 rounded-2xl p-4 md:p-6 flex flex-col sm:flex-row justify-between items-center gap-4 transition-all">
+            <div class="flex items-center gap-3">
+                <div class="bg-accent-lavender p-2.5 rounded-xl border-2 border-brand-slate text-xl">⚡</div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-extrabold tracking-tight">study<span class="text-accent-butter">funny</span>.hub</h1>
+                    <p class="text-xs text-gray-400 font-medium">Şagirdlər üçün intellektual və məzəli iş masası</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center flex-wrap gap-3">
+                <div :class="darkMode ? 'bg-brand-charcoal' : 'bg-brand-cream'" class="px-4 py-2 rounded-xl border-2 border-brand-slate dark:border-brand-slateGray flex items-center gap-2 font-bold text-sm">
+                    <span>🎖️ Rütbə:</span>
+                    <span class="text-accent-butter" x-text="getUserRank()"></span>
+                </div>
+                <div class="bg-accent-sage/20 px-4 py-2 rounded-xl border-2 border-accent-sage flex items-center gap-2 font-bold text-sm text-brand-slate dark:text-brand-offWhite">
+                    <span>💎 Ümumi Aktivlik:</span>
+                    <span x-text="`${totalStudyMinutes} dəqiqə`"></span>
+                </div>
+                <button @click="toggleTheme()" :class="darkMode ? 'bg-brand-charcoal border-brand-slateGray' : 'bg-brand-cream border-brand-slate'" class="border-3 p-2.5 rounded-xl transition-all">
+                    <span x-text="darkMode ? '☀️' : '🌙'"></span>
+                </button>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <div class="lg:col-span-8 flex flex-col gap-6">
+                
+                <section :class="darkMode ? 'bg-brand-darkCard border-brand-slateGray shadow-brutal-dark' : 'bg-white border-brand-slate shadow-brutal'" class="border-3 rounded-2xl p-6 relative">
+                    <h2 class="text-lg font-extrabold mb-4 flex items-center gap-2">
+                        <span>📚</span> Fənn Meneceri və Vaxt Sayğacı
+                    </h2>
+                    
+                    <div class="flex flex-col sm:flex-row gap-3 mb-6">
+                        <input 
+                            x-model="newSubjectName" 
+                            type="text" 
+                            placeholder="Məs: Riyaziyyat, Fizika, Tarix..." 
+                            :class="darkMode ? 'bg-brand-charcoal border-brand-slateGray text-white' : 'bg-brand-cream border-brand-slate text-brand-slate'"
+                            class="flex-1 px-4 py-3 border-3 rounded-xl font-bold text-sm focus:outline-none focus:ring-2 focus:ring-accent-butter"
+                        >
+                        <button 
+                            @click="addSubject()" 
+                            class="bg-accent-lavender text-brand-slate font-bold border-3 border-brand-slate px-6 py-3 rounded-xl shadow-brutal hover:translate-y-0.5 transition-all text-sm"
+                        >
+                            + Fənn Əlavə Et
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <template x-for="(sub, index) in subjects" :key="index">
+                            <div 
+                                :class="activeSubjectIndex === index ? 'border-accent-butter bg-accent-butter/10' : (darkMode ? 'bg-brand-charcoal border-brand-slateGray' : 'bg-brand-cream border-brand-slate')"
+                                class="border-3 rounded-xl p-4 flex flex-col justify-between transition-all"
+                            >
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-extrabold text-base" x-text="sub.name"></h3>
+                                    <button @click="deleteSubject(index)" class="text-accent-rose text-xs font-bold hover:underline">Sil</button>
+                                </div>
+                                
+                                <div class="flex justify-between items-center mt-4">
+                                    <div class="text-xs font-medium text-gray-400">
+                                        Oxunub: <span class="font-bold text-brand-slate dark:text-brand-offWhite" x-text="formatTime(sub.seconds)"></span>
+                                    </div>
+                                    
+                                    <button 
+                                        @click="toggleSubjectTimer(index)"
+                                        :class="activeSubjectIndex === index ? 'bg-accent-rose text-white' : 'bg-accent-sage text-brand-slate'"
+                                        class="px-4 py-1.5 text-xs font-bold rounded-lg border-2 border-brand-slate transition-all"
+                                        x-text="activeSubjectIndex === index ? 'Dandandır (Dayandır)' : 'Oxumağa Başla'"
+                                    ></button>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </section>
+
+                <section :class="darkMode ? 'bg-brand-darkCard border-brand-slateGray shadow-brutal-dark' : 'bg-white border-brand-slate shadow-brutal'" class="border-3 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden">
+                    <div class="flex-1">
+                        <h2 class="text-lg font-extrabold mb-1 flex items-center gap-2">
+                            <span>⏱️</span> Tənbəllik Həbsxanası (Pomodoro)
+                        </h2>
+                        <p class="text-xs text-gray-400 font-medium mb-4">
+                            25 dəqiqə ərzində bu pəncərədən ayrılsan, cəza mexanizmi işə düşəcək. Konsentrasiya ol!
+                        </p>
+                        
+                        <div class="text-5xl md:text-6xl font-black tracking-tighter mb-4 text-brand-slate dark:text-brand-offWhite">
+                            <span x-text="String(Math.floor(pomodoroSeconds / 60)).padStart(2, '0')"></span>:<span x-text="String(pomodoroSeconds % 60).padStart(2, '0')"></span>
+                        </div>
+
+                        <div class="flex items-center gap-2">
+                            <button 
+                                @click="togglePomodoro()" 
+                                :class="pomodoroRunning ? 'bg-accent-rose text-white' : 'bg-accent-sage text-brand-slate'"
+                                class="px-6 py-2.5 rounded-xl border-3 border-brand-slate font-bold text-xs shadow-brutal hover:translate-y-0.5 transition-all"
+                                x-text="pomodoroRunning ? 'Fasilə Ver' : 'Fokuslanmanı Başlat'"
+                            ></button>
+                            <button 
+                                @click="resetPomodoro()" 
+                                :class="darkMode ? 'bg-brand-charcoal' : 'bg-brand-cream'"
+                                class="px-4 py-2.5 rounded-xl border-3 border-brand-slate dark:border-brand-slateGray font-bold text-xs transition-all"
+                            >Reset</button>
+                        </div>
+                    </div>
+
+                    <div class="w-full md:w-56 bg-accent-lavender/20 border-2 border-accent-lavender rounded-xl p-4 text-xs font-medium relative">
+                        <span class="absolute top-2 right-2 text-base">🤖</span>
+                        <h4 class="font-bold text-brand-slate dark:text-brand-offWhite mb-1">Nəzarətçi Robot deyir:</h4>
+                        <p class="italic text-gray-500 dark:text-gray-400" x-text="pomoMemeText"></p>
+                    </div>
+                </section>
+
+                <section :class="darkMode ? 'bg-brand-darkCard border-brand-slateGray shadow-brutal-dark' : 'bg-white border-brand-slate shadow-brutal'" class="border-3 rounded-2xl p-6">
+                    <h2 class="text-lg font-extrabold mb-1 flex items-center gap-2">
+                        <span>🤖</span> Məzəli Qeyd Sadələşdirici (AI Buddy)
+                    </h2>
+                    <p class="text-xs text-gray-400 font-medium mb-4">Anlamadığın çətin dərs qeydini bura yapışdır, süni intellekt köməkçin onu sənə lağ edərək sadə dildə başa salsın.</p>
+                    
+                    <textarea 
+                        x-model="aiInputText"
+                        rows="3" 
+                        placeholder="Məs: Fotosintez bitkilərin işıq enerjisini kimyəvi enerjiyə çevirmə prosesidir..."
+                        :class="darkMode ? 'bg-brand-charcoal border-brand-slateGray text-white' : 'bg-brand-cream border-brand-slate text-brand-slate'"
+                        class="w-full p-4 border-3 rounded-xl font-medium text-sm focus:outline-none mb-3 resize-none"
+                    ></textarea>
+                    
+                    <div class="flex justify-end mb-4">
+                        <button 
+                            @click="generateAiRoast()" 
+                            class="bg-accent-butter text-brand-slate font-bold border-3 border-brand-slate px-5 py-2.5 rounded-xl shadow-brutal hover:translate-y-0.5 transition-all text-xs"
+                        >
+                            Qeydlərimi Sadələşdir & Dolama ⚡
+                        </button>
+                    </div>
+
+                    <div x-show="aiOutputText" x-transition class="bg-accent-lavender/10 border-2 border-accent-lavender rounded-xl p-4">
+                        <h4 class="text-xs font-extrabold text-accent-butter mb-1">Məzəli İzahat:</h4>
+                        <p class="text-xs md:text-sm leading-relaxed font-medium" x-text="aiOutputText"></p>
+                    </div>
+                </section>
+
+            </div>
+
+            <div class="lg:col-span-4 flex flex-col gap-6">
+                
+                <section :class="darkMode ? 'bg-brand-darkCard border-brand-slateGray shadow-brutal-dark' : 'bg-white border-brand-slate shadow-brutal'" class="border-3 rounded-2xl p-6">
+                    <h2 class="text-lg font-extrabold mb-2 flex items-center gap-2">
+                        <span>📊</span> Analitika Qrafiki
+                    </h2>
+                    <p class="text-xs text-gray-400 font-medium mb-4">Hansı fənnə daha çox həyatını xərcləmisən?</p>
+                    
+                    <div class="w-full flex items-center justify-center max-h-56">
+                        <canvas id="studyChart" class="w-full"></canvas>
+                    </div>
+                </section>
+
+                <section :class="darkMode ? 'bg-brand-darkCard border-brand-slateGray shadow-brutal-dark' : 'bg-white border-brand-slate shadow-brutal'" class="border-3 rounded-2xl p-6 flex-1 flex flex-col">
+                    <h2 class="text-lg font-extrabold mb-1 flex items-center gap-2">
+                        <span>📋</span> Bu Gün Nə Edəcəksən?
+                    </h2>
+                    <p class="text-xs text-gray-400 font-medium mb-4">Tapşırıqlarını daxil et və qaçma.</p>
+                    
+                    <div class="flex gap-2 mb-4">
+                        <input 
+                            x-model="newTodoText"
+                            @keyup.enter="addTodo()"
+                            type="text" 
+                            placeholder="Məs: Riyaziyyat səh 45..."
+                            :class="darkMode ? 'bg-brand-charcoal border-brand-slateGray text-white' : 'bg-brand-cream border-brand-slate text-brand-slate'"
+                            class="flex-1 px-3 py-2 border-2 rounded-xl text-xs font-bold focus:outline-none"
+                        >
+                        <button @click="addTodo()" class="bg-accent-sage text-brand-slate font-bold border-2 border-brand-slate px-3 rounded-xl text-xs font-extrabold">+</button>
+                    </div>
+
+                    <div class="space-y-2 max-h-64 overflow-y-auto custom-scrollbar flex-1">
+                        <template x-for="(todo, index) in todos" :key="index">
+                            <div 
+                                :class="todo.completed ? 'opacity-50 line-through bg-transparent' : (darkMode ? 'bg-brand-charcoal border-brand-slateGray' : 'bg-brand-cream border-brand-slate')"
+                                class="p-3 border-2 rounded-xl flex items-center justify-between transition-all"
+                            >
+                                <div class="flex items-center gap-2.5 max-w-[80%]">
+                                    <input type="checkbox" x-model="todo.completed" @change="saveTodos()" class="w-4 h-4 rounded text-accent-sage focus:ring-0">
+                                    <span class="text-xs font-bold truncate" x-text="todo.text"></span>
+                                </div>
+                                <button @click="deleteTodo(index)" class="text-accent-rose text-xs font-bold px-1">✕</button>
+                            </div>
+                        </template>
+                        <template x-if="todos.length === 0">
+                            <p class="text-xs text-center text-gray-400 py-4 font-medium">Heç bir tapşırıq yoxdur. Azad quşsan! 🕊️</p>
+                        </template>
+                    </div>
+                </section>
+
+            </div>
+
+        </div>
+
+        <footer class="w-full text-center text-xs opacity-40 font-medium mt-4">
+            Bütün məlumatlar kompyuterinin yaddaşında (LocalStorage) saxlanılır. Oxumağa davam et! — © 2026.
+        </footer>
+
+    </div>
+
+    <script>
+        function studyDashboard() {
+            return {
+                darkMode: false,
+                showDistractionOverlay: false,
+                newSubjectName: '',
+                activeSubjectIndex: null,
+                totalStudyMinutes: 0,
+                
+                // Subject Storage Structure
+                subjects: [
+                    { name: 'Riyaziyyat', seconds: 1200 },
+                    { name: 'Xarici Dil', seconds: 600 },
+                    { name: 'Tarix', seconds: 300 }
+                ],
+                
+                // Pomodoro variables
+                pomodoroSeconds: 1500, // 25 mins
+                pomodoroRunning: false,
+                pomoMemeText: "Hələ də başlamamısan? Beyninin qırışları düzləşir, xəbərin var?",
+                
+                // Todo structures
+                newTodoText: '',
+                todos: [],
+                
+                // AI simulator structures
+                aiInputText: '',
+                aiOutputText: '',
+                
+                // Chart storage
+                chartInstance: null,
+                intervalId: null,
+
+                initApp() {
+                    // Theme validation
+                    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                        this.darkMode = true;
+                    }
+                    
+                    // Load items from localstorage if exist
+                    if (localStorage.getItem('study_subjects')) {
+                        this.subjects = JSON.parse(localStorage.getItem('study_subjects'));
+                    }
+                    if (localStorage.getItem('study_todos')) {
+                        this.todos = JSON.parse(localStorage.getItem('study_todos'));
+                    }
+                    
+                    this.calculateTotalMinutes();
+                    this.initChart();
+                    
+                    // Tab Visibility Blocker logic (Procrastination detector)
+                    document.addEventListener('visibilitychange', () => {
+                        if (document.hidden && this.pomodoroRunning) {
+                            this.showDistractionOverlay = true;
+                            this.pomodoroRunning = false;
+                        }
+                    });
+
+                    // Heartbeat system logic
+                    setInterval(() => {
+                        if (this.activeSubjectIndex !== null) {
+                            this.subjects[this.activeSubjectIndex].seconds += 1;
+                            this.calculateTotalMinutes();
+                            this.saveSubjects();
+                            this.updateChart();
+                        }
+                        if (this.pomodoroRunning && this.pomodoroSeconds > 0) {
+                            this.pomodoroSeconds--;
+                            this.updatePomoMeme();
+                            if (this.pomodoroSeconds === 0) {
+                                this.pomodoroRunning = false;
+                                alert("Təbriklər! Bir Pomodoro seansını bitirdin. Get bir az dincəl!");
+                            }
+                        }
+                    }, 1000);
+                },
+
+                toggleTheme() {
+                    this.darkMode = !this.darkMode;
+                    localStorage.theme = this.darkMode ? 'dark' : 'light';
+                },
+
+                addSubject() {
+                    if (!this.newSubjectName.trim()) return;
+                    this.subjects.push({
+                        name: this.newSubjectName.trim(),
+                        seconds: 0
+                    });
+                    this.newSubjectName = '';
+                    this.saveSubjects();
+                    this.updateChart();
+                },
+
+                deleteSubject(index) {
+                    if (this.activeSubjectIndex === index) this.activeSubjectIndex = null;
+                    this.subjects.splice(index, 1);
+                    this.saveSubjects();
+                    this.calculateTotalMinutes();
+                    this.updateChart();
+                },
+
+                toggleSubjectTimer(index) {
+                    if (this.activeSubjectIndex === index) {
+                        this.activeSubjectIndex = null;
+                    } else {
+                        this.activeSubjectIndex = index;
+                    }
+                },
+
+                calculateTotalMinutes() {
+                    let totalSecs = this.subjects.reduce((sum, item) => sum + item.seconds, 0);
+                    this.totalStudyMinutes = Math.floor(totalSecs / 60);
+                },
+
+                formatTime(seconds) {
+                    let hrs = Math.floor(seconds / 3600);
+                    let mins = Math.floor((seconds % 3600) / 60);
+                    let secs = seconds % 60;
+                    return `${hrs > 0 ? hrs + 's ' : ''}${mins}d ${secs}s`;
+                },
+
+                getUserRank() {
+                    if (this.totalStudyMinutes < 30) return "Dərs qaçıran Fərarı 🏃‍♂️";
+                    if (this.totalStudyMinutes < 120) return "Yarımçıq Tələbə 🎒";
+                    if (this.totalStudyMinutes < 400) return "Kitab Qurdu 🐛";
+                    return "Kosmik Alim 🚀";
+                },
+
+                togglePomodoro() {
+                    this.pomodoroRunning = !this.pomodoroRunning;
+                },
+
+                resetPomodoro() {
+                    this.pomodoroRunning = false;
+                    this.pomodoroSeconds = 1500;
+                    this.pomoMemeText = "Sıfırlandı. Yenidən başla, bu səfər sənə inanıram!";
+                },
+
+                closeDistractionOverlay() {
+                    this.showDistractionOverlay = false;
+                },
+
+                updatePomoMeme() {
+                    if (this.pomodoroSeconds === 1200) this.pomoMemeText = "5 dəqiqə keçdi. Beynin hələ işləyir? Əla.";
+                    if (this.pomodoroSeconds === 600) this.pomoMemeText = "Yarısına gəldin! İnstaqramda şəkil bəyənməkdən daha faydalı işlə məşğulsan.";
+                    if (this.pomodoroSeconds === 100) this.pomoMemeText = "Son saniyələr! Dişini sıx, dahi olmaq üzərəsən.";
+                },
+
+                addTodo() {
+                    if (!this.newTodoText.trim()) return;
+                    this.todos.push({ text: this.newTodoText.trim(), completed: false });
+                    this.newTodoText = '';
+                    this.saveTodos();
+                },
+
+                deleteTodo(index) {
+                    this.todos.splice(index, 1);
+                    this.saveTodos();
+                },
+
+                saveSubjects() { localStorage.setItem('study_subjects', JSON.stringify(this.subjects)); },
+                saveTodos() { localStorage.setItem('study_todos', JSON.stringify(this.todos)); },
+
+                generateAiRoast() {
+                    if (!this.aiInputText.trim()) return;
+                    
+                    const roasts = [
+                        "Bunun qısası odur ki, sən oxumasan da o bitki səndən daha çox iş görür və günəşdən enerji yığır. Get bir az kitab üzü aç.",
+                        "Kitabda bunu 4 səhifə yazıb səni qorxutmaq istəyiblər. Əslində demək istəyir ki, tapşırıqları vaxtında eləməsən gələcəkdə dırnaqarası mütəxəssis olacaqsan.",
+                        "Tərcüməsi: Bu mövzu imtahanda mütləq düşəcək və sən hələ də burda qeydlərini mənə analiz etdirirsən. Keç dərsinə!"
+                    ];
+                    
+                    this.aiOutputText = roasts[Math.floor(Math.random() * roasts.length)];
+                },
+
+                initChart() {
+                    const ctx = document.getElementById('studyChart').getContext('2d');
+                    this.chartInstance = new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: this.subjects.map(s => s.name),
+                            datasets: [{
+                                data: this.subjects.map(s => Math.floor(s.seconds / 60)),
+                                backgroundColor: ['#A8DADC', '#F4A261', '#B5A6C9', '#E63946', '#4EA8DE'],
+                                borderWidth: 2,
+                                borderColor: '#2B2D42'
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: { legend: { display: false } }
+                        }
+                    });
+                },
+
+                updateChart() {
+                    if (!this.chartInstance) return;
+                    this.chartInstance.data.labels = this.subjects.map(s => s.name);
+                    this.chartInstance.data.datasets[0].data = this.subjects.map(s => Math.floor(s.seconds / 60));
+                    this.chartInstance.update();
+                }
+            }
+        }
+    </script>
+</body>
+</html>
