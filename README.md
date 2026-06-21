@@ -1,1 +1,1 @@
-# -studyfunny.hub
+# studyfunny.hub
