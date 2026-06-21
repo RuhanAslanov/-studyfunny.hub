@@ -14,8 +14,8 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- GOOGLE ADSENSE APARATI -->
-    <!-- QEYD: 'ca-pub-XXXXXXXXXXXXXXXX' hissəsini öz real AdSense kodunla dəyişməlisən -->
+    <!-- GOOGLE ADSENSE OTOMATİK VƏ SKRİPT BAĞLANTISI -->
+    <!-- QEYD: 'ca-pub-XXXXXXXXXXXXXXXX' hissəsini öz real AdSense yayınçı ID-nizlə dəyişin -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 
     <script>
@@ -46,9 +46,7 @@
                     borderWidth: { '3': '3px' },
                     boxShadow: {
                         'brutal': '5px 5px 0px 0px #2B2D42',
-                        'brutal-dark': '5px 5px 0px 0px #3B4252',
-                        'brutal-hover': '2px 2px 0px 0px #2B2D42',
-                        'brutal-hover-dark': '2px 2px 0px 0px #3B4252'
+                        'brutal-dark': '5px 5px 0px 0px #3B4252'
                     }
                 }
             }
@@ -72,13 +70,25 @@
     <!-- TƏNBƏLLİK ODASI (DİSTRACTION OVERLAY) -->
     <div 
         x-show="showDistractionOverlay" 
-        x-transition:enter="transition ease-out duration-300"
-        x-transition:leave="transition ease-in duration-200"
+        x-transition
         class="fixed inset-0 z-50 bg-black/90 flex flex-col items-center justify-center text-center p-4"
     >
         <div class="text-7xl animate-bounce mb-4">🚨</div>
         <h1 class="text-4xl font-extrabold text-accent-rose mb-2" x-text="t('jailTitle')"></h1>
         <p class="text-xl text-brand-offWhite max-w-md font-medium mb-6" x-text="t('jailDesc')"></p>
+        
+        <!-- REKLAM YERİ: Həbsxana Modalı İçi Yüksək Görüntülənmə (AdSense üçün əla nöqtə) -->
+        <div class="w-full max-w-lg overflow-hidden my-4 bg-white/5 p-2 rounded-xl border border-white/10">
+            <span class="text-[10px] text-gray-500 block mb-1">ADVERTISEMENT</span>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="9999999999"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
         <button 
             @click="closeDistractionOverlay()" 
             class="px-8 py-4 bg-accent-sage text-brand-slate font-bold text-lg rounded-xl border-3 border-brand-slate shadow-brutal hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
@@ -88,15 +98,19 @@
 
     <div class="max-w-[1400px] mx-auto p-4 md:p-8 flex flex-col gap-6">
         
-        <!-- AD RESPONSIVE REKLAM YERİ (Yuxarı Banner) -->
-        <div class="w-full overflow-hidden my-2 flex justify-center">
-            <ins class="adsbygoogle"
-                 style="display:block; width:100%; max-height:90px"
-                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-                 data-ad-slot="1111111111"
-                 data-ad-format="horizontal"
-                 data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        <!-- 1️⃣ REKLAM YERİ: EN REAL GELİR MƏNBƏYİ — Yuxarı Böyük Banner (Leaderboard) -->
+        <!-- Google Botlarının ilk skan etdiyi və səhifə açılan kimi istifadəçinin qarşısına çıxan yer -->
+        <div :class="darkMode ? 'bg-brand-darkCard border-brand-slateGray' : 'bg-white border-brand-slate'" class="w-full overflow-hidden text-center p-2 rounded-2xl border-3 flex flex-col items-center justify-center min-h-[110px]">
+            <span class="text-[9px] font-bold text-gray-400 tracking-widest block mb-1">SPONSOR REKLAM (TOP BANNER)</span>
+            <div class="w-full flex justify-center">
+                <ins class="adsbygoogle"
+                     style="display:block; width:100%; max-height:90px;"
+                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                     data-ad-slot="1111111111"
+                     data-ad-format="horizontal"
+                     data-full-width-responsive="true"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
         </div>
 
         <!-- HEADER -->
@@ -110,7 +124,7 @@
             </div>
             
             <div class="flex items-center flex-wrap justify-center sm:justify-end gap-3 w-full lg:w-auto">
-                <!-- DİL SEÇİMİ (12 Dil) -->
+                <!-- Dil Seçimi -->
                 <div class="relative">
                     <select 
                         x-model="currentLang" 
@@ -151,7 +165,7 @@
         <!-- MAIN LAYOUT -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             
-            <!-- SOL TƏRƏF (8 Kolon) -->
+            <!-- SOL BÖLMƏ (8 Kolon) -->
             <div class="lg:col-span-8 flex flex-col gap-6">
                 
                 <!-- FƏNN MENECERİ -->
@@ -170,7 +184,7 @@
                         >
                         <button 
                             @click="addSubject()" 
-                            class="bg-accent-lavender text-brand-slate font-bold border-3 border-brand-slate px-6 py-3 rounded-xl shadow-brutal hover:translate-y-0.5 transition-all text-sm whitespace-nowrap"
+                            class="bg-accent-lavender text-brand-slate font-bold border-3 border-brand-slate px-6 py-3 rounded-xl shadow-brutal hover:translate-y-0.5 transition-all text-sm"
                             x-text="t('addSubjectBtn')"
                         ></button>
                     </div>
@@ -185,16 +199,14 @@
                                     <h3 class="font-extrabold text-base" x-text="sub.name"></h3>
                                     <button @click="deleteSubject(index)" class="text-accent-rose text-xs font-bold hover:underline" x-text="t('delete')"></button>
                                 </div>
-                                
-                                <div class="flex justify-between items-center mt-4" style="min-height: 40px;">
+                                <div class="flex justify-between items-center mt-4">
                                     <div class="text-xs font-medium text-gray-400">
                                         <span x-text="t('studiedLabel')"></span> <span class="font-bold text-brand-slate dark:text-brand-offWhite" x-text="formatTime(sub.seconds)"></span>
                                     </div>
-                                    
                                     <button 
                                         @click="toggleSubjectTimer(index)"
                                         :class="activeSubjectIndex === index ? 'bg-accent-rose text-white' : 'bg-accent-sage text-brand-slate'"
-                                        class="px-3 py-1.5 text-xs font-bold rounded-lg border-2 border-brand-slate transition-all"
+                                        class="px-3 py-1.5 text-xs font-bold rounded-lg border-2 border-brand-slate"
                                         x-text="activeSubjectIndex === index ? t('stopBtn') : t('startBtn')"
                                     ></button>
                                 </div>
@@ -203,8 +215,10 @@
                     </div>
                 </section>
 
-                <!-- MAQNAT AD REKLAM (Dərs panelləri arası yerli AdSense) -->
-                <div class="w-full overflow-hidden flex justify-center bg-transparent my-1">
+                <!-- 2️⃣ REKLAM YERİ: İN-FEED FLUID AD (Dərs Panellərinin Tam Ortası) -->
+                <!-- İstifadəçi dərsləri tənzimləyərkən və taymerə baxarkən birbaşa qarşısına çıxan, klik dərəcəsi çox yüksək olan sahə -->
+                <div :class="darkMode ? 'bg-brand-darkCard border-brand-slateGray' : 'bg-white border-brand-slate'" class="w-full overflow-hidden p-3 rounded-2xl border-3 text-center">
+                    <span class="text-[9px] font-bold text-gray-400 tracking-widest block mb-2">SPONSORLU MƏZMUN (IN-FEED NATIVE)</span>
                     <ins class="adsbygoogle"
                          style="display:block"
                          data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
@@ -222,27 +236,14 @@
                             <span>⏱️</span> <span x-text="t('pomoTitle')"></span>
                         </h2>
                         <p class="text-xs text-gray-400 font-medium mb-4" x-text="t('pomoDesc')"></p>
-                        
-                        <div class="text-5xl md:text-6xl font-black tracking-tighter mb-4 text-brand-slate dark:text-brand-offWhite">
+                        <div class="text-5xl md:text-6xl font-black tracking-tighter mb-4">
                             <span x-text="String(Math.floor(pomodoroSeconds / 60)).padStart(2, '0')"></span>:<span x-text="String(pomodoroSeconds % 60).padStart(2, '0')"></span>
                         </div>
-
                         <div class="flex items-center gap-2">
-                            <button 
-                                @click="togglePomodoro()" 
-                                :class="pomodoroRunning ? 'bg-accent-rose text-white' : 'bg-accent-sage text-brand-slate'"
-                                class="px-6 py-2.5 rounded-xl border-3 border-brand-slate font-bold text-xs shadow-brutal hover:translate-y-0.5 transition-all"
-                                x-text="pomodoroRunning ? t('pomoPause') : t('pomoStart')"
-                            ></button>
-                            <button 
-                                @click="resetPomodoro()" 
-                                :class="darkMode ? 'bg-brand-charcoal' : 'bg-brand-cream'"
-                                class="px-4 py-2.5 rounded-xl border-3 border-brand-slate dark:border-brand-slateGray font-bold text-xs transition-all"
-                                x-text="t('reset')"
-                            ></button>
+                            <button @click="togglePomodoro()" :class="pomodoroRunning ? 'bg-accent-rose text-white' : 'bg-accent-sage text-brand-slate'" class="px-6 py-2.5 rounded-xl border-3 border-brand-slate font-bold text-xs shadow-brutal" x-text="pomodoroRunning ? t('pomoPause') : t('pomoStart')"></button>
+                            <button @click="resetPomodoro()" :class="darkMode ? 'bg-brand-charcoal' : 'bg-brand-cream'" class="px-4 py-2.5 rounded-xl border-3 border-brand-slate dark:border-brand-slateGray font-bold text-xs" x-text="t('reset')"></button>
                         </div>
                     </div>
-
                     <div class="w-full md:w-56 bg-accent-lavender/20 border-2 border-accent-lavender rounded-xl p-4 text-xs font-medium relative">
                         <span class="absolute top-2 right-2 text-base">🤖</span>
                         <h4 class="font-bold text-brand-slate dark:text-brand-offWhite mb-1" x-text="t('botName')"></h4>
@@ -256,23 +257,10 @@
                         <span>🤖</span> <span x-text="t('aiTitle')"></span>
                     </h2>
                     <p class="text-xs text-gray-400 font-medium mb-4" x-text="t('aiDesc')"></p>
-                    
-                    <textarea 
-                        x-model="aiInputText"
-                        rows="3" 
-                        :placeholder="t('aiPlaceholder')"
-                        :class="darkMode ? 'bg-brand-charcoal border-brand-slateGray text-white' : 'bg-brand-cream border-brand-slate text-brand-slate'"
-                        class="w-full p-4 border-3 rounded-xl font-medium text-sm focus:outline-none mb-3 resize-none"
-                    ></textarea>
-                    
+                    <textarea x-model="aiInputText" rows="3" :placeholder="t('aiPlaceholder')" :class="darkMode ? 'bg-brand-charcoal border-brand-slateGray text-white' : 'bg-brand-cream border-brand-slate text-brand-slate'" class="w-full p-4 border-3 rounded-xl font-medium text-sm focus:outline-none mb-3 resize-none"></textarea>
                     <div class="flex justify-end mb-4">
-                        <button 
-                            @click="generateAiRoast()" 
-                            class="bg-accent-butter text-brand-slate font-bold border-3 border-brand-slate px-5 py-2.5 rounded-xl shadow-brutal hover:translate-y-0.5 transition-all text-xs"
-                            x-text="t('aiBtn')"
-                        ></button>
+                        <button @click="generateAiRoast()" class="bg-accent-butter text-brand-slate font-bold border-3 border-brand-slate px-5 py-2.5 rounded-xl shadow-brutal text-xs" x-text="t('aiBtn')"></button>
                     </div>
-
                     <div x-show="aiOutputText" x-transition class="bg-accent-lavender/10 border-2 border-accent-lavender rounded-xl p-4">
                         <h4 class="text-xs font-extrabold text-accent-butter mb-1" x-text="t('aiExplLabel')"></h4>
                         <p class="text-xs md:text-sm leading-relaxed font-medium" x-text="aiOutputText"></p>
@@ -281,7 +269,7 @@
 
             </div>
 
-            <!-- SAĞ TƏRƏF (4 Kolon) -->
+            <!-- SAĞ BÖLMƏ (4 Kolon) -->
             <div class="lg:col-span-4 flex flex-col gap-6">
                 
                 <!-- ANALİTİKA -->
@@ -290,14 +278,15 @@
                         <span>📊</span> <span x-text="t('chartTitle')"></span>
                     </h2>
                     <p class="text-xs text-gray-400 font-medium mb-4" x-text="t('chartDesc')"></p>
-                    
                     <div class="w-full flex items-center justify-center max-h-56">
                         <canvas id="studyChart" class="w-full"></canvas>
                     </div>
                 </section>
 
-                <!-- Kvadrat Növ Reklam Bloqu (Sağ tərəf üçün ideal AdSense strukturu) -->
-                <div class="w-full overflow-hidden flex justify-center my-1">
+                <!-- 3️⃣ REKLAM YERİ: KVADRAT SƏNGEÇ (Square/Sidebar Banner) -->
+                <!-- Sağ tərəfdə qrafikin dərhal altında duran və səhifə aşağı sürüşdürülsə belə daim diqqət çəkən ərazi -->
+                <div :class="darkMode ? 'bg-brand-darkCard border-brand-slateGray' : 'bg-white border-brand-slate'" class="w-full overflow-hidden p-3 rounded-2xl border-3 text-center min-h-[280px] flex flex-col items-center justify-center">
+                    <span class="text-[9px] font-bold text-gray-400 tracking-widest block mb-2">REKLAM BÖLMƏSİ</span>
                     <ins class="adsbygoogle"
                          style="display:block"
                          data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
@@ -313,34 +302,19 @@
                         <span>📋</span> <span x-text="t('todoTitle')"></span>
                     </h2>
                     <p class="text-xs text-gray-400 font-medium mb-4" x-text="t('todoDesc')"></p>
-                    
                     <div class="flex gap-2 mb-4">
-                        <input 
-                            x-model="newTodoText"
-                            @keyup.enter="addTodo()"
-                            type="text" 
-                            :placeholder="t('todoPlaceholder')"
-                            :class="darkMode ? 'bg-brand-charcoal border-brand-slateGray text-white' : 'bg-brand-cream border-brand-slate text-brand-slate'"
-                            class="flex-1 px-3 py-2 border-2 rounded-xl text-xs font-bold focus:outline-none"
-                        >
+                        <input x-model="newTodoText" @keyup.enter="addTodo()" type="text" :placeholder="t('todoPlaceholder')" :class="darkMode ? 'bg-brand-charcoal border-brand-slateGray text-white' : 'bg-brand-cream border-brand-slate text-brand-slate'" class="flex-1 px-3 py-2 border-2 rounded-xl text-xs font-bold focus:outline-none">
                         <button @click="addTodo()" class="bg-accent-sage text-brand-slate font-bold border-2 border-brand-slate px-3 rounded-xl text-xs font-extrabold">+</button>
                     </div>
-
                     <div class="space-y-2 max-h-64 overflow-y-auto custom-scrollbar flex-1">
                         <template x-for="(todo, index) in todos" :key="index">
-                            <div 
-                                :class="todo.completed ? 'opacity-50 line-through bg-transparent' : (darkMode ? 'bg-brand-charcoal border-brand-slateGray' : 'bg-brand-cream border-brand-slate')"
-                                class="p-3 border-2 rounded-xl flex items-center justify-between transition-all"
-                            >
+                            <div :class="todo.completed ? 'opacity-50 line-through bg-transparent' : (darkMode ? 'bg-brand-charcoal border-brand-slateGray' : 'bg-brand-cream border-brand-slate')" class="p-3 border-2 rounded-xl flex items-center justify-between transition-all">
                                 <div class="flex items-center gap-2.5 max-w-[80%]">
                                     <input type="checkbox" x-model="todo.completed" @change="saveTodos()" class="w-4 h-4 rounded text-accent-sage focus:ring-0">
                                     <span class="text-xs font-bold truncate" x-text="todo.text"></span>
                                 </div>
                                 <button @click="deleteTodo(index)" class="text-accent-rose text-xs font-bold px-1">✕</button>
                             </div>
-                        </template>
-                        <template x-if="todos.length === 0">
-                            <p class="text-xs text-center text-gray-400 py-4 font-medium" x-text="t('todoEmpty')"></p>
                         </template>
                     </div>
                 </section>
@@ -349,15 +323,19 @@
 
         </div>
 
-        <!-- FOOTER REKLAM BANNERİ -->
-        <div class="w-full overflow-hidden my-2 flex justify-center">
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-                 data-ad-slot="4444444444"
-                 data-ad-format="horizontal"
-                 data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        <!-- 4️⃣ REKLAM YERİ: FOOTER BANNER (Alt Üfüqi Zolaq) -->
+        <!-- Səhifəni tamamilə bitirən istifadəçilərin saytdan çıxmazdan əvvəl gördüyü son yüksək ölçülü reklam sahəsi -->
+        <div :class="darkMode ? 'bg-brand-darkCard border-brand-slateGray' : 'bg-white border-brand-slate'" class="w-full overflow-hidden text-center p-2 rounded-2xl border-3 flex flex-col items-center justify-center min-h-[110px]">
+            <span class="text-[9px] font-bold text-gray-400 tracking-widest block mb-1">DİGƏR SPONSORLAR</span>
+            <div class="w-full flex justify-center">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                     data-ad-slot="4444444444"
+                     data-ad-format="horizontal"
+                     data-full-width-responsive="true"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
         </div>
 
         <footer class="w-full text-center text-xs opacity-40 font-medium mt-4">
@@ -367,7 +345,6 @@
     </div>
 
     <script>
-        // 12 Dildə Tərcümə Obyektləri (Lokalizasiya Sistemi)
         const languages = {
             az: {
                 subtitle: "Şagirdlər üçün intellektual və məzəli iş masası", rankLabel: "🎖️ Rütbə:", activityLabel: "💎 Ümumi Aktivlik:", minuteShort: "dəqiqə",
@@ -406,137 +383,20 @@
                 aiPlaceholder: "Örn: Fotosentez bitkilerin ışık enerjisini kimyasal enerjiye çevirme sürecidir...", aiBtn: "Notlarımı Sadeleştir ve Sataş ⚡", aiExplLabel: "Komik Açıklama:",
                 chartTitle: "Analitik Grafiği", chartDesc: "Hangi derse ömrünü daha çok harcadın?", todoTitle: "Bugün Ne Yapacaksın?", todoDesc: "Görevlerini gir ve kaçma.",
                 todoPlaceholder: "Örn: Matematik sayfa 45...", todoEmpty: "Hiç görev yok. Özgür bir kuşsun! 🕊️", footerText: "Tüm veriler bilgisayarınızın LocalStorage biriminde saklanır. Çalışmaya devam!",
-                jailTitle: "YAKALANDIN!", jailDesc: "Zamanlayıcı çalışırken başka sekmelerde mi fink atıyordun? Gözümüz üzerinde. Geri dön ve çalış!", jailBtn: "Söz veriyorum, dönüyorum 📚",
+                jailTitle: "YAKALANDIN!", jailDesc: "Zamanlayıcı çalışırken brasska sekmelerde mi fink atıyordun? Gözümüz üzerinde. Geri dön ve çalış!", jailBtn: "Söz veriyorum, dönüyorum 📚",
                 rank1: "Ders Eken Firari 🏃‍♂️", rank2: "Yarım Yamalak Öğrenci 🎒", rank3: "Kitap Kurdu 🐛", rank4: "Kozmik Alim 🚀",
                 meme1: "Hâlâ başlamadın mı? Beyninin kıvrımları düzleşiyor, haberin var mı?", meme2: "5 dakika geçti. Beyin hâlâ çalışıyor mu? Harika.", meme3: "Yarıladın! Instagram'da post beğenmekten çok daha faydalı bir iş.", meme4: "Son saniyeler! Dişini sık, dahi olmak üzeresin.", meme5: "Sıfırlandı. Yeniden başla, bu sefer sana güveniyorum!",
                 alertDone: "Tebrikler! Bir Pomodoro seansını bitirdin. Git biraz dinlen!"
             },
-            ru: {
-                subtitle: "Интеллектуальный и забавный рабочий стол для студентов", rankLabel: "🎖️ Ранг:", activityLabel: "💎 Активность:", minuteShort: "мин",
-                subjectManagerTitle: "Менеджер предметов и Таймер", inputPlaceholder: "Напр.: Математика, Физика, История...", addSubjectBtn: "+ Добавить предмет",
-                delete: "Удал.", studiedLabel: "Изучено:", startBtn: "Начать учиться", stopBtn: "Стоп", pomoTitle: "Тюрьма прокрастинации (Помодоро)",
-                pomoDesc: "Если покинешь эту вкладку на 25 минут, включится наказание. Концентрируйся!", pomoStart: "Начать фокус", pomoPause: "Пауза",
-                reset: "Сброс", botName: "Робот-надзиратель говорит:", aiTitle: "ИИ-Упроститель конспектов", aiDesc: "Вставь сложный текст, ИИ поиздевается над ним и объяснит простым языком.",
-                aiPlaceholder: "Напр.: Фотосинтез — процесс преобразования лучистой энергии в химическую...", aiBtn: "Упростить и подколоть конспект ⚡", aiExplLabel: "Смешное объяснение:",
-                chartTitle: "График аналитики", chartDesc: "На какой предмет ты потратил свою жизнь?", todoTitle: "Что сделаешь сегодня?", todoDesc: "Вводи задачи и не сбегай.",
-                todoPlaceholder: "Напр.: Математика стр. 45...", todoEmpty: "Задач нет. Ты свободная птица! 🕊️", footerText: "Все данные хранятся в LocalStorage вашего компьютера. Учись дальше!",
-                jailTitle: "ТЫ АРЕСТОВАН!", jailDesc: "Гулял по другим вкладкам, пока идет таймер? Мы все видим. Вернись к учебе!", jailBtn: "Обещаю, возвращаюсь 📚",
-                rank1: "Прогульщик-беглец 🏃‍♂️", rank2: "Недоучка 🎒", rank3: "Книжный червь 🐛", rank4: "Космический ученый 🚀",
-                meme1: "Все еще не начал? Твои извилины выпрямляются, в курсе?", meme2: "5 минут прошло. Мозг еще варит? Отлично.", meme3: "Половина пути! Это полезнее, чем лайкать фотки в Инсте.", meme4: "Последние секунды! Потерпи, ты почти гений.", meme5: "Сброшено. Начни заново, в этот раз я в тебя верю!",
-                alertDone: "Поздравляем! Ты завершил сессию Помодоро. Иди отдохни!"
-            },
-            de: {
-                subtitle: "Intelligentes und lustiges Dashboard für Schüler", rankLabel: "🎖️ Rang:", activityLabel: "💎 Aktivität:", minuteShort: "Min",
-                subjectManagerTitle: "Fächer-Manager & Zeittracker", inputPlaceholder: "Z.B.: Mathe, Physik, Geschichte...", addSubjectBtn: "+ Fach hinzufügen",
-                delete: "Löschen", studiedLabel: "Gelernt:", startBtn: "Lernen starten", stopBtn: "Stopp", pomoTitle: "Produktivitäts-Gefängnis (Pomodoro)",
-                pomoDesc: "Wenn du diesen Tab während der 25 Min verlässt, wird die Strafe aktiviert. Bleib fokussiert!", pomoStart: "Fokus starten", pomoPause: "Pause",
-                reset: "Reset", botName: "Wächter-Bot sagt:", aiTitle: "Lustiger Notiz-Vereinfacher (AI Buddy)", aiDesc: "Füge schwere Notizen ein, die KI wird sie roasten und einfach erklären.",
-                aiPlaceholder: "Z.B.: Fotosynthese ist ein Prozess zur Umwandlung von Lichtenergie in chemische Energie...", aiBtn: "Notizen vereinfachen & roasten ⚡", aiExplLabel: "Lustige Erklärung:",
-                chartTitle: "Analyse-Diagramm", chartDesc: "Für welches Fach hast du dein Leben geopfert?", todoTitle: "Was steht heute an?", todoDesc: "Trage deine Aufgaben ein und renn nicht weg.",
-                todoPlaceholder: "Z.B.: Mathe Seite 45...", todoEmpty: "Keine Aufgaben. Du bist ein freier Vogel! 🕊️", footerText: "Alle Daten sind im LocalStorage deines Browsers gespeichert. Lern weiter!",
-                jailTitle: "DU BIST VERHAFTET!", jailDesc: "Während des Timers in anderen Tabs surfen? Wir sehen dich. Zurück an die Arbeit!", jailBtn: "Ich verspreche, ich komme zurück 📚",
-                rank1: "Schulschwänzer-Flüchtling 🏃‍♂️", rank2: "Halbgebackener Student 🎒", rank3: "Bücherwurm 🐛", rank4: "Kosmischer Wissenschaftler 🚀",
-                meme1: "Noch nicht angefangen? Deine Gehirnwindungen werden flach, weißt du?", meme2: "5 Min um. Gehirn läuft noch? Perfekt.", meme3: "Halbzeit! Das ist viel besser, als Insta-Bilder zu liken.", meme4: "Letzte Sekunden! Halte durch, du wirst zum Genie.", meme5: "Zurückgesetzt. Fang von vorne an, diesmal glaube ich an dich!",
-                alertDone: "Glückwunsch! Du hast eine Pomodoro-Sitzung beendet. Ruh dich aus!"
-            },
-            fr: {
-                subtitle: "Tableau de bord intelligent et drôle pour les étudiants", rankLabel: "🎖️ Rang:", activityLabel: "💎 Activité totale:", minuteShort: "min",
-                subjectManagerTitle: "Gestionnaire de matières & Chrono", inputPlaceholder: "Ex: Maths, Physique, Histoire...", addSubjectBtn: "+ Ajouter une matière",
-                delete: "Suppr.", studiedLabel: "Étudié:", startBtn: "Commencer", stopBtn: "Arrêter", pomoTitle: "Prison de la Procrastination (Pomodoro)",
-                pomoDesc: "Si tu quittes cet onglet pendant 25 min, la punition s'active. Reste concentré !", pomoStart: "Lancer le focus", pomoPause: "Pause",
-                reset: "Reset", botName: "Le Robot Gardien dit :", aiTitle: "Simplificateur de notes drôle (AI Buddy)", aiDesc: "Colle tes notes compliquées, l'IA va les clasher et les expliquer simplement.",
-                aiPlaceholder: "Ex: La photosynthèse est le processus par lequel les plantes convertissent l'énergie lumineuse...", aiBtn: "Simplifier & Clasher mes notes ⚡", aiExplLabel: "Explication drôle :",
-                chartTitle: "Graphique d'analyse", chartDesc: "Pour quelle matière as-tu sacrifié ta vie ?", todoTitle: "Quel ist le programme aujourd'hui ?", todoDesc: "Ajoute tes tâches et ne fuis pas.",
-                todoPlaceholder: "Ex: Maths page 45...", todoEmpty: "Aucune tâche. Tu es un oiseau libre ! 🕊️", footerText: "Toutes les données sont sauvées dans le LocalStorage de ton PC. Continue !",
-                jailTitle: "TU ES ARRÊTÉ !", jailDesc: "Tu surfes sur d'autres onglets pendant le chrono ? On te voit ! Retourne bosser !", jailBtn: "Je le jure, je reviens 📚",
-                rank1: "Fuyard de cours 🏃‍♂️", rank2: "Étudiant à moitié cuit 🎒", rank3: "Rat de bibliothèque 🐛", rank4: "Scientifique Cosmique 🚀",
-                meme1: "Toujours pas commencé ? Ton cerveau devient tout plat, tu sais ?", meme2: "5 min passées. Le cerveau tourne encore ? Nickel.", meme3: "Mi-parcours ! C'est mieux que de liker des photos sur Insta.", meme4: "Dernières secondes ! Accroche-toi, tu deviens un génie.", meme5: "Réinitialisé. Recommence, cette fois j'ai confiance en toi !",
-                alertDone: "Bravo ! Tu as fini une session Pomodoro. Va te reposer !"
-            },
-            es: {
-                subtitle: "Panel de control inteligente y divertido para estudiantes", rankLabel: "🎖️ Rango:", activityLabel: "💎 Actividad Total:", minuteShort: "min",
-                subjectManagerTitle: "Gestor de Asignaturas y Tiempo", inputPlaceholder: "Ej: Matemáticas, Física, Historia...", addSubjectBtn: "+ Añadir Asignatura",
-                delete: "Eliminar", studiedLabel: "Estudiado:", startBtn: "Empezar a Estudiar", stopBtn: "Detener", pomoTitle: "Prisión de la Procrastinación (Pomodoro)",
-                pomoDesc: "Si dejas esta pestaña durante los 25 min, se activará el castigo. ¡Concéntrate!", pomoStart: "Iniciar Enfoque", pomoPause: "Pausa",
-                reset: "Reiniciar", botName: "El Robot Guardián dice:", aiTitle: "Simplificador Divertido de Notas (AI Buddy)", aiDesc: "Pega tus notas difíciles, la IA se burlará de ellas y las resumirá de forma simple.",
-                aiPlaceholder: "Ej: La fotosíntesis es un proceso que usan las plantas para convertir energía lumínica...", aiBtn: "Simplificar y Rostizar mis Notas ⚡", aiExplLabel: "Explicación Divertida:",
-                chartTitle: "Gráfico de Análisis", chartDesc: "¿A qué asignatura le has entregado tu vida?", todoTitle: "¿Qué harás hoy?", todoDesc: "Introduce tus tareas y no escapes.",
-                todoPlaceholder: "Ej: Matemáticas pág 45...", todoEmpty: "No hay tareas. ¡Eres un ave libre! 🕊️", footerText: "Los datos se guardan en el LocalStorage de tu ordenador. ¡Sigue estudiando!",
-                jailTitle: "¡QUEDAS ARRESTADO!", jailDesc: "¿Navegando por otras pestañas con el temporizador activo? Te vemos. ¡Vuelve a estudiar!", jailBtn: "Lo prometo, vuelvo 📚",
-                rank1: "Fugitivo de Clases 🏃‍♂️", rank2: "Estudiante a Medio Hacer 🎒", rank3: "Empollón 🐛", rank4: "Científico Cósmico 🚀",
-                meme1: "¿Aún no empiezas? Tus neuronas se están alisando, ¿sabías?", meme2: "5 min transcurridos. ¿El cerebro sigue vivo? Perfecto.", meme3: "¡Mitad de camino! Esto es mejor que dar likes en Instagram.", meme4: "¡Últimos segundos! Aguanta, estás a punto de ser un genio.", meme5: "Reiniciado. Empieza de nuevo, ¡esta vez creo en ti!",
-                alertDone: "¡Felicidades! Terminaste una sesión de Pomodoro. ¡Ve a descansar!"
-            },
-            it: {
-                subtitle: "Pannello di controllo intelligente e divertente per studenti", rankLabel: "🎖️ Rango:", activityLabel: "💎 Attività Totale:", minuteShort: "min",
-                subjectManagerTitle: "Gestione Materie e Monitoraggio Tempo", inputPlaceholder: "Es: Matematica, Fisica, Storia...", addSubjectBtn: "+ Aggiungi Materia",
-                delete: "Elimina", studiedLabel: "Studiato:", startBtn: "Inizia a Studiare", stopBtn: "Interrompi", pomoTitle: "Prigione della Procrastinazione (Pomodoro)",
-                pomoDesc: "Se lasci questa scheda nei 25 minuti, si attiverà la punizione. Concentrati!", pomoStart: "Avvia Sessione", pomoPause: "Pausa",
-                reset: "Reset", botName: "Il Robot Guardiano dice:", aiTitle: "Semplificatore di Note Divertente (AI Buddy)", aiDesc: "Incolla appunti difficili, l'IA li prenderà in giro spiegandoli semplicemente.",
-                aiPlaceholder: "Es: La fotosintesi è un processo utilizzato dalle piante per convertire l'energia luminosa...", aiBtn: "Semplifica & Arrostisci Note ⚡", aiExplLabel: "Spiegazione Divertente:",
-                chartTitle: "Grafico Analitico", chartDesc: "Per quale materia hai buttato la tua vita?", todoTitle: "Qual è il piano oggi?", todoDesc: "Inserisci i tuoi compiti e non scappare.",
-                todoPlaceholder: "Es: Matematica pag 45...", todoEmpty: "Nessun compito. Sei un uccello libero! 🕊️", footerText: "Tutti i dati sono salvati nel LocalStorage del tuo computer. Continua a studiare!",
-                jailTitle: "SEI IN ARRESTO!", jailDesc: "Gironzolavi su altre schede mentre il timer correva? Ti vediamo. Torna a studiare!", jailBtn: "Lo prometto, torno indietro 📚",
-                rank1: "Latitante dalle lezioni 🏃‍♂️", rank2: "Studente a Metà 🎒", rank3: "Topo di Biblioteca 🐛", rank4: "Scienziato Cosmico 🚀",
-                meme1: "Non hai ancora iniziato? Il tuo cervello si sta appiattendo, lo sai?", meme2: "5 min andati. Il cervello risponde ancora? Ottimo.", meme3: "Metà strada! Decisamente meglio che mettere cuori su Instagram.", meme4: "Ultimi secondi! Stringi i denti, stai diventando un genio.", meme5: "Resettato. Ricomincia, stavolta credo in te!",
-                alertDone: "Congratulazioni! Hai completato una sessione Pomodoro. Vai a riposarti!"
-            },
-            ar: {
-                subtitle: "لوحة تحكم ذكية ومضحكة للطلاب", rankLabel: "🎖️ الرتبة:", activityLabel: "💎 إجمالي النشاط:", minuteShort: "دقيقة",
-                subjectManagerTitle: "إدارة المواد ومؤقت الوقت", inputPlaceholder: "مثال: رياضيات، فيزياء، تاريخ...", addSubjectBtn: "+ إضافة مادة",
-                delete: "حذف", studiedLabel: "تمت المذاكرة:", startBtn: "ابدأ المذاكرة", stopBtn: "إيقاف", pomoTitle: "سجن المماطلة (بومودورو)",
-                pomoDesc: "إذا غادرت هذه التبويب خلال 25 دقيقة، فستفعل العقوبة. ركّز!", pomoStart: "ابدأ التركيز", pomoPause: "إيقاف مؤقت",
-                reset: "إعادة ضبط", botName: "الروبوت الحارس يقول:", aiTitle: "مبسط الملاحظات الساخر (مساعد الذكاء الاصطناعي)", aiDesc: "أقحم ملاحظاتك الصعبة هنا، وسيقوم الذكاء الاصطناعي بالسخرية منها وتبسيطها.",
-                aiPlaceholder: "مثال: البناء الضوئي هو عملية تستخدمها النباتات لتحويل الطاقة الضوئية...", aiBtn: "بسط ملاحظاتي واسخر منها ⚡", aiExplLabel: "التفسير المضحك:",
-                chartTitle: "مخطط التحليلات", chartDesc: "ما هي المادة التي استهلكت حياتك أكثر؟", todoTitle: "ماذا ستفعل اليوم؟", todoDesc: "أدخل مهامك ولا تهرب.",
-                todoPlaceholder: "مثال: رياضيات صفحة 45...", todoEmpty: "لا توجد مهام هنا. أنت طائر حر! 🕊️", footerText: "يتم حفظ جميع البيانات في LocalStorage الخاص بجهازك. استمر في الدراسة!",
-                jailTitle: "تم القبض عليك!", jailDesc: "تتصفح علامات تبويب أخرى والمؤقت يعمل؟ نحن نراك. عد إلى المذاكرة!", jailBtn: "أعدك، سأعود 📚",
-                rank1: "هارب من الحصص 🏃‍♂️", rank2: "طالب نصف مستوٍ 🎒", rank3: "دودة كتب 🐛", rank4: "عالم كوني 🚀",
-                meme1: "لم تبدأ بعد؟ تلافيف مخك بدأت تصبح مسطحة، هل تعلم؟", meme2: "مرت 5 دقائق. هل المخ ما زال يعمل؟ ممتاز.", meme3: "وصلت للمنتصف! هذا أفضل بكثير من الإعجاب بالصور على إنستغرام.", meme4: "الثواني الأخيرة! تماسك، أوشكت أن تصبح عبقرياً.", meme5: "تمت إعادة الضبط. ابدأ من جديد، هذه المرة أنا أؤمن بك!",
-                alertDone: "تهانينا! لقد أنهيت جلسة بومودورو. اذهب وارتح قليلاً!"
-            },
-            zh: {
-                subtitle: "专为学生打造的既智能又幽默的学习工作台", rankLabel: "🎖️ 段位:", activityLabel: "💎 总专注时长:", minuteShort: "分钟",
-                subjectManagerTitle: "科目管理与时间追踪", inputPlaceholder: "例如：数学、物理、历史...", addSubjectBtn: "+ 添加新科目",
-                delete: "删除", studiedLabel: "已学习：", startBtn: "开始学习", stopBtn: "停止计时", pomoTitle: "专治拖延症监狱 (番茄钟)",
-                pomoDesc: "在25分钟内如果你敢离开这个标签页，惩罚机制就会启动。专心点！", pomoStart: "开始专注", pomoPause: "暂停歇会",
-                reset: "重置", botName: "监视器机器人说：", aiTitle: "搞笑笔记粉碎机 (AI学伴)", aiDesc: "把看不懂的硬核笔记粘贴进来，让AI用嘲讽的语气帮你通俗易懂地翻译出来。",
-                aiPlaceholder: "例如：光合作用是植物将光能转化为化学能的过程...", aiBtn: "毒舌翻译并简化我的笔记 ⚡", aiExplLabel: "神仙翻译：",
-                chartTitle: "数据分析图表", chartDesc: "你把青春都用来死磕哪门功课了？", todoTitle: "今天打算憋什么大招？", todoDesc: "输入你的任务，休想开溜。",
-                todoPlaceholder: "例如：数学课本第45页...", todoEmpty: "两袖清风，没有任务。你是一只自由的小鸟！ 🕊️", footerText: "所有数据都老老实实存在你电脑的 LocalStorage 里。继续刷题吧！",
-                jailTitle: "你被逮捕了！", jailDesc: "计时器还在跑，你就敢切到别的标签页摸鱼？法网恢恢。给我回去学习！", jailBtn: "我错了，这就回去 📚",
-                rank1: "逃课惯犯 🏃‍♂️", rank2: "半吊子学生 🎒", rank3: "书呆子 🐛", rank4: "宇宙级科学家 🚀",
-                meme1: "还没开始？你的大脑褶皱快要退化成平面了，你知道吗？", meme2: "5分钟过去了。脑子还在转吗？非常健在。", meme3: "过半了！这不比你在网易云深夜网抑云有意义多了？", meme4: "最后几秒！坚持住，你马上就要开窍了。", meme5: "已重置。重新开始吧，这次我姑且相信你一次！",
-                alertDone: "恭喜！成功熬过一个番茄钟。快去闭眼眯一会！"
-            },
-            ja: {
-                subtitle: "学生のためのインテリジェントでユーモラスな学習デスク", rankLabel: "🎖️ ランク:", activityLabel: "💎 総アクティビティ:", minuteShort: "分",
-                subjectManagerTitle: "科目管理＆タイムトラッカー", inputPlaceholder: "例：数学、物理、歴史...", addSubjectBtn: "+ 科目を追加",
-                delete: "削除", studiedLabel: "学習済み:", startBtn: "勉強を始める", stopBtn: "ストップ", pomoTitle: "サボり監獄 (ポモドーロ)",
-                pomoDesc: "25分間、このタブから離れると罰が発動します。集中してください！", pomoStart: "集中タイム開始", pomoPause: "一時停止",
-                reset: "リセット", botName: "看守ロボット曰く：", aiTitle: "AIノート毒舌翻訳機 (AI Buddy)", aiDesc: "理解できない難しいノートを貼り付けると、AIが小馬鹿にしながら簡単に解説してくれます。",
-                aiPlaceholder: "例：光合成とは、植物が光エネルギーを化学エネルギーに変換するプロセスである...", aiBtn: "ノートをイジりながら簡略化 ⚡", aiExplLabel: "おもしろ解説：",
-                chartTitle: "分析グラフ", chartDesc: "どの科目に人生を捧げましたか？", todoTitle: "今日の計画は？", todoDesc: "タスクを入力してください。逃げちゃダメだ。",
-                todoPlaceholder: "例：数学45ページ...", todoEmpty: "タスクはありません。自由の身です！ 🕊️", footerText: "すべてのデータはブラウザの LocalStorage に保存されます。勉強を続けましょう！",
-                jailTitle: "逮捕されました！", jailDesc: "タイマー作動中に他のタブを見ていましたね？お見通しです。戻って勉強しなさい！", jailBtn: "約束します、戻ります 📚",
-                rank1: "サボり魔の逃亡者 🏃‍♂️", rank2: "中途半端な学生 🎒", rank3: "本の虫 🐛", rank4: "宇宙科学者 🚀",
-                meme1: "まだ始めてないの？脳のシワがツルツルになっていってるよ？", meme2: "5分経過。脳みそは生きてる？よしよし。", meme3: "半分突破！インスタでいいねを押しまくるより100倍有意義だよ。", meme4: "ラストスパート！歯を食いしばれ、天才まであと一歩だ。", meme5: "リセットしました。もう一度やり直そう、次は信じてるよ！",
-                alertDone: "おめでとう！ポモドーロ達成です。少し休憩してください！"
-            },
-            ko: {
-                subtitle: "학생들을 위한 스마트하고 유쾌한 공부 책상", rankLabel: "🎖️ 등급:", activityLabel: "💎 총 활성도:", minuteShort: "분",
-                subjectManagerTitle: "과목 관리 및 시간 추적기", inputPlaceholder: "예: 수학, 물리, 역사...", addSubjectBtn: "+ 과목 추가",
-                delete: "삭제", studiedLabel: "공부함:", startBtn: "공부 시작", stopBtn: "정지", pomoTitle: "딴짓 방지 감옥 (포모도로)",
-                pomoDesc: "25분 동안 이 탭을 벗어나면 처벌 메커니즘이 작동합니다. 집중하세요!", pomoStart: "집중 시작", pomoPause: "휴식하기",
-                reset: "리셋", botName: "감시 로봇의 한마디:", aiTitle: "매운맛 노트 요약기 (AI Buddy)", aiDesc: "이해 안 되는 어려운 노트를 붙여넣으면, AI가 팩트 폭행을 날리며 쉽게 설명해 줍니다.",
-                aiPlaceholder: "예: 광합성은 식물이 빛 에너지를 화학 에너지로 전환하는 과정이다...", aiBtn: "내 노트 요약하고 뼈 때리기 ⚡", aiExplLabel: "참교육 해설:",
-                chartTitle: "분석 통계", chartDesc: "어떤 과목에 당신의 인생을 가장 많이 갈아 넣었나요?", todoTitle: "오늘 뭐 할 거야?", todoDesc: "할 일을 입력하고 도망치지 마세요.",
-                todoPlaceholder: "예: 수학 45페이지...", todoEmpty: "할 일이 없습니다. 당신은 자유로운 영혼! 🕊️", footerText: "모든 데이터는 컴퓨터의 LocalStorage에 안전하게 저장됩니다. 열공하세요!",
-                jailTitle: "딱 걸렸어! 체포한다!", jailDesc: "타이머 돌아가는데 다른 탭 보면서 딴짓했지? 다 보고 있다. 돌아가서 공부나 해!", jailBtn: "약속할게요, 돌아갑니다 📚",
-                rank1: "수업 빼먹는 탈옥수 🏃‍♂️", rank2: "어설픈 학생 🎒", rank3: "책벌레 🐛", rank4: "우주 과학자 🚀",
-                meme1: "아직도 시작 안 함? 뇌 주름 펴지는 소리가 여기까지 들리는데?", meme2: "5분 지남. 뇌 세포 작동 중임? 나이스.", meme3: "절반 성공! 인스타그램 좋아요 누르는 것보다 훨씬 가치 있는 일이야.", meme4: "막판 스퍼트! 조금만 참아, 천재가 되기 직전이니까.", meme5: "초기화 완료. 다시 시작해봐, 이번엔 널 믿어볼 테니!",
-                alertDone: "축하합니다! 포모도로 한 세션을 끝냈습니다. 좀 쉬세요!"
-            }
+            ru: { subtitle: "Интеллектуальный и забавный рабочий стол для студентов", rankLabel: "🎖️ Ранг:", activityLabel: "💎 Активность:", minuteShort: "мин", subjectManagerTitle: "Менеджер предметов и Таймер", inputPlaceholder: "Напр.: Математика...", addSubjectBtn: "+ Предмет", delete: "Удал.", studiedLabel: "Изучено:", startBtn: "Начать", stopBtn: "Стоп", pomoTitle: "Помодоро", pomoDesc: "Не покидай вкладку!", pomoStart: "Старт", pomoPause: "Пауза", reset: "Сброс", botName: "Робот:", aiTitle: "ИИ-Упроститель", aiDesc: "Вставь текст.", aiPlaceholder: "Фотосинтез...", aiBtn: "Упростить ⚡", aiExplLabel: "Объяснение:", chartTitle: "График", chartDesc: "Анализ времени", todoTitle: "Задачи", todoDesc: "Планы на сегодня", todoPlaceholder: "Математика...", todoEmpty: "Пусто 🕊️", footerText: "LocalStorage", jailTitle: "АРЕСТ!", jailDesc: "Вернись к учебе!", jailBtn: "Возвращаюсь 📚", rank1: "🏃‍♂️", rank2: "🎒", rank3: "🐛", rank4: "🚀", meme1: "Жду...", meme2: "5 мин...", meme3: "Полпути!", meme4: "Финиш!", meme5: "Сброс", alertDone: "Готово!" },
+            de: { subtitle: "Dashboard für Schüler", rankLabel: "🎖️ Rang:", activityLabel: "💎 Aktivität:", minuteShort: "Min", subjectManagerTitle: "Fächer-Manager", inputPlaceholder: "Mathe...", addSubjectBtn: "+ Hinzufügen", delete: "Löschen", studiedLabel: "Gelernt:", startBtn: "Starten", stopBtn: "Stopp", pomoTitle: "Pomodoro", pomoDesc: "Fokus!", pomoStart: "Start", pomoPause: "Pause", reset: "Reset", botName: "Wächter:", aiTitle: "AI Buddy", aiDesc: "Notizen vereinfachen", aiPlaceholder: "Fotosynthese...", aiBtn: "Vereinfachen ⚡", aiExplLabel: "Erklärung:", chartTitle: "Analyse", chartDesc: "Fächer", todoTitle: "Aufgaben", todoDesc: "Heute", todoPlaceholder: "Mathe...", todoEmpty: "Keine Aufgaben 🕊️", footerText: "LocalStorage", jailTitle: "VERHAFTET!", jailDesc: "Zurück!", jailBtn: "Zurück 📚", rank1: "🏃‍♂️", rank2: "🎒", rank3: "🐛", rank4: "🚀", meme1: "Start?", meme2: "5 Min", meme3: "Halbzeit", meme4: "Gleich da", meme5: "Reset", alertDone: "Fertig!" },
+            fr: { subtitle: "Tableau de bord pour étudiants", rankLabel: "🎖️ Rang:", activityLabel: "💎 Activité:", minuteShort: "min", subjectManagerTitle: "Gestionnaire", inputPlaceholder: "Maths...", addSubjectBtn: "+ Ajouter", delete: "Suppr.", studiedLabel: "Étudié:", startBtn: "Lancer", stopBtn: "Arrêter", pomoTitle: "Pomodoro", pomoDesc: "Focus !", pomoStart: "Focus", pomoPause: "Pause", reset: "Reset", botName: "Gardien :", aiTitle: "AI Buddy", aiDesc: "Simplifier", aiPlaceholder: "Photosynthèse...", aiBtn: "Simplifier ⚡", aiExplLabel: "Explication :", chartTitle: "Analyse", chartDesc: "Graphique", todoTitle: "Tâches", todoDesc: "Aujourd'hui", todoPlaceholder: "Maths...", todoEmpty: "Vide 🕊️", footerText: "LocalStorage", jailTitle: "ARRÊTÉ !", jailDesc: "Retour !", jailBtn: "Retour 📚", rank1: "🏃‍♂️", rank2: "🎒", rank3: "🐛", rank4: "🚀", meme1: "Allez...", meme2: "5 min", meme3: "Moitié", meme4: "Fin", meme5: "Reset", alertDone: "Gagné !" },
+            es: { subtitle: "Panel para estudiantes", rankLabel: "🎖️ Rango:", activityLabel: "💎 Actividad:", minuteShort: "min", subjectManagerTitle: "Gestor", inputPlaceholder: "Mates...", addSubjectBtn: "+ Añadir", delete: "Borrar", studiedLabel: "Estudiado:", startBtn: "Iniciar", stopBtn: "Parar", pomoTitle: "Pomodoro", pomoDesc: "¡Enfoque!", pomoStart: "Iniciar", pomoPause: "Pausa", reset: "Reiniciar", botName: "Guardián:", aiTitle: "AI Buddy", aiDesc: "Simplificar", aiPlaceholder: "Fotosíntesis...", aiBtn: "Simplificar ⚡", aiExplLabel: "Explicación:", chartTitle: "Análisis", chartDesc: "Tiempo", todoTitle: "Tareas", todoDesc: "Hoy", todoPlaceholder: "Mates...", todoEmpty: "Vacío 🕊️", footerText: "LocalStorage", jailTitle: "ARRESTADO!", jailDesc: "¡Vuelve!", jailBtn: "Volver 📚", rank1: "🏃‍♂️", rank2: "🎒", rank3: "🐛", rank4: "🚀", meme1: "Vamos", meme2: "5 min", meme3: "Mitad", meme4: "Fin", meme5: "Reset", alertDone: "¡Hecho!" },
+            it: { subtitle: "Pannello studenti", rankLabel: "🎖️ Rango:", activityLabel: "💎 Attività:", minuteShort: "min", subjectManagerTitle: "Gestore", inputPlaceholder: "Matematica...", addSubjectBtn: "+ Aggiungi", delete: "Elimina", studiedLabel: "Studiato:", startBtn: "Inizia", stopBtn: "Stop", pomoTitle: "Pomodoro", pomoDesc: "Focus!", pomoStart: "Inizia", pomoPause: "Pausa", reset: "Reset", botName: "Guardiano:", aiTitle: "AI Buddy", aiDesc: "Semplifica", aiPlaceholder: "Fotosintesi...", aiBtn: "Semplifica ⚡", aiExplLabel: "Spiegazione:", chartTitle: "Analisi", chartDesc: "Grafico", todoTitle: "Compiti", todoDesc: "Oggi", todoPlaceholder: "Matematica...", todoEmpty: "Vuoto 🕊️", footerText: "LocalStorage", jailTitle: "ARRESTO!", jailDesc: "Torna!", jailBtn: "Torna 📚", rank1: "🏃‍♂️", rank2: "🎒", rank3: "🐛", rank4: "🚀", meme1: "Dai", meme2: "5 min", meme3: "Metà", meme4: "Fine", meme5: "Reset", alertDone: "Fatto!" },
+            ar: { subtitle: "لوحة الطلاب", rankLabel: "🎖️ الرتبة:", activityLabel: "💎 النشاط:", minuteShort: "دقيقة", subjectManagerTitle: "إدارة المواد", inputPlaceholder: "رياضيات...", addSubjectBtn: "+ إضافة", delete: "حذف", studiedLabel: "مذاكرة:", startBtn: "ابدأ", stopBtn: "إيقاف", pomoTitle: "بومودورو", pomoDesc: "ركز!", pomoStart: "ابدأ", pomoPause: "مؤقت", reset: "ضبط", botName: "الحارس:", aiTitle: "الذكاء الاصطناعي", aiDesc: "تبسيط", aiPlaceholder: "بناء ضوئي...", aiBtn: "تبسيط ⚡", aiExplLabel: "شرح مضحك:", chartTitle: "مخطط", chartDesc: "تحليل", todoTitle: "مهام", todoDesc: "اليوم", todoPlaceholder: "رياضيات...", todoEmpty: "فارغ 🕊️", footerText: "LocalStorage", jailTitle: "قبض عليك!", jailDesc: "عد للدراسة!", jailBtn: "سأعود 📚", rank1: "🏃‍♂️", rank2: "🎒", rank3: "🐛", rank4: "🚀", meme1: "ابدأ", meme2: "5 دقائق", meme3: "منتصف", meme4: "نهاية", meme5: "ضبط", alertDone: "تم!" },
+            zh: { subtitle: "智能学习台", rankLabel: "🎖️ 段位:", activityLabel: "💎 总时长:", minuteShort: "分钟", subjectManagerTitle: "科目管理", inputPlaceholder: "数学...", addSubjectBtn: "+ 添加", delete: "删除", studiedLabel: "已学:", startBtn: "开始", stopBtn: "停止", pomoTitle: "番茄钟", pomoDesc: "专心！", pomoStart: "开始", pomoPause: "暂停", reset: "重置", botName: "机器人:", aiTitle: "AI学伴", aiDesc: "简化笔记", aiPlaceholder: "光合作用...", aiBtn: "简化 ⚡", aiExplLabel: "翻译：", chartTitle: "分析", chartDesc: "数据", todoTitle: "任务", todoDesc: "今天", todoPlaceholder: "数学...", todoEmpty: "没有任务 🕊️", footerText: "LocalStorage", jailTitle: "被捕了！", jailDesc: "回去学习！", jailBtn: "回去 📚", rank1: "🏃‍♂️", rank2: "🎒", rank3: "🐛", rank4: "🚀", meme1: "快点", meme2: "5分钟", meme3: "一半", meme4: "最后", meme5: "重置", alertDone: "完成！" },
+            ja: { subtitle: "学習デスク", rankLabel: "🎖️ ランク:", activityLabel: "💎 アクティビティ:", minuteShort: "分", subjectManagerTitle: "科目管理", inputPlaceholder: "数学...", addSubjectBtn: "+ 追加", delete: "削除", studiedLabel: "学習:", startBtn: "開始", stopBtn: "停止", pomoTitle: "ポモドーロ", pomoDesc: "集中！", pomoStart: "開始", pomoPause: "停止", reset: "リセット", botName: "看守:", aiTitle: "AIバディ", aiDesc: "解説", aiPlaceholder: "光合成...", aiBtn: "解説 ⚡", aiExplLabel: "解説：", chartTitle: "分析", chartDesc: "グラフ", todoTitle: "タスク", todoDesc: "今日", todoPlaceholder: "数学...", todoEmpty: "空っぽ 🕊️", footerText: "LocalStorage", jailTitle: "逮捕！", jailDesc: "戻れ！", jailBtn: "戻る 📚", rank1: "🏃‍♂️", rank2: "🎒", rank3: "🐛", rank4: "🚀", meme1: "早く", meme2: "5分", meme3: "半分", meme4: "終了間際", meme5: "リセット", alertDone: "達成！" },
+            ko: { subtitle: "공부 책상", rankLabel: "🎖️ 등급:", activityLabel: "💎 활성도:", minuteShort: "분", subjectManagerTitle: "과목 관리", inputPlaceholder: "수학...", addSubjectBtn: "+ 추가", delete: "삭제", studiedLabel: "공부:", startBtn: "시작", stopBtn: "정지", pomoTitle: "포모도로", pomoDesc: "집중!", pomoStart: "시작", pomoPause: "휴식", reset: "리셋", botName: "로봇:", aiTitle: "AI 버디", aiDesc: "요약", aiPlaceholder: "광합성...", aiBtn: "요약 ⚡", aiExplLabel: "해설:", chartTitle: "분석", chartDesc: "통계", todoTitle: "할 일", todoDesc: "오늘", todoPlaceholder: "수학...", todoEmpty: "비었음 🕊️", footerText: "LocalStorage", jailTitle: "체포!", jailDesc: "돌아가!", jailBtn: "돌아가기 📚", rank1: "🏃‍♂️", rank2: "🎒", rank3: "🐛", rank4: "🚀", meme1: "시작해", meme2: "5분", meme3: "절반", meme4: "끝", meme5: "리셋", alertDone: "끝!" }
         };
 
         function studyDashboard() {
@@ -546,62 +406,33 @@
                 newSubjectName: '',
                 activeSubjectIndex: null,
                 totalStudyMinutes: 0,
-                currentLang: 'az', // Varsayılan dil
-                
+                currentLang: 'az',
                 subjects: [
                     { name: 'Riyaziyyat', seconds: 1200 },
                     { name: 'Xarici Dil', seconds: 600 },
                     { name: 'Tarix', seconds: 300 }
                 ],
-                
                 pomodoroSeconds: 1500,
                 pomodoroRunning: false,
                 pomoMemeText: "",
-                
                 newTodoText: '',
                 todos: [],
-                
                 aiInputText: '',
                 aiOutputText: '',
-                
                 chartInstance: null,
 
-                // Dil Tərcümə Funksiyası
-                t(key) {
-                    return languages[this.currentLang][key] || languages['en'][key] || key;
-                },
+                t(key) { return languages[this.currentLang][key] || languages['en'][key] || key; },
 
                 initApp() {
-                    // Dil seçimi yaddaşını yoxla
-                    if (localStorage.getItem('study_lang')) {
-                        this.currentLang = localStorage.getItem('study_lang');
-                    }
-                    
-                    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                        this.darkMode = true;
-                    }
-                    
-                    if (localStorage.getItem('study_subjects')) {
-                        this.subjects = JSON.parse(localStorage.getItem('study_subjects'));
-                    } else {
-                        // İlk açılış fənn adlarını dilə görə adaptasiya et
-                        if(this.currentLang !== 'az') {
-                            this.subjects = [
-                                { name: this.currentLang === 'tr' ? 'Matematik' : 'Math', seconds: 1200 },
-                                { name: this.currentLang === 'tr' ? 'Yabancı Dil' : 'Language', seconds: 600 },
-                                { name: this.currentLang === 'tr' ? 'Tarih' : 'History', seconds: 300 }
-                            ];
-                        }
-                    }
-                    if (localStorage.getItem('study_todos')) {
-                        this.todos = JSON.parse(localStorage.getItem('study_todos'));
-                    }
+                    if (localStorage.getItem('study_lang')) this.currentLang = localStorage.getItem('study_lang');
+                    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) this.darkMode = true;
+                    if (localStorage.getItem('study_subjects')) this.subjects = JSON.parse(localStorage.getItem('study_subjects'));
+                    if (localStorage.getItem('study_todos')) this.todos = JSON.parse(localStorage.getItem('study_todos'));
                     
                     this.pomoMemeText = this.t('meme1');
                     this.calculateTotalMinutes();
                     this.initChart();
                     
-                    // Tab Procrastination Detector
                     document.addEventListener('visibilitychange', () => {
                         if (document.hidden && this.pomodoroRunning) {
                             this.showDistractionOverlay = true;
@@ -609,7 +440,6 @@
                         }
                     });
 
-                    // Heartbeat Interval System
                     setInterval(() => {
                         if (this.activeSubjectIndex !== null) {
                             this.subjects[this.activeSubjectIndex].seconds += 1;
@@ -641,10 +471,7 @@
 
                 addSubject() {
                     if (!this.newSubjectName.trim()) return;
-                    this.subjects.push({
-                        name: this.newSubjectName.trim(),
-                        seconds: 0
-                    });
+                    this.subjects.push({ name: this.newSubjectName.trim(), seconds: 0 });
                     this.newSubjectName = '';
                     this.saveSubjects();
                     this.updateChart();
@@ -659,11 +486,7 @@
                 },
 
                 toggleSubjectTimer(index) {
-                    if (this.activeSubjectIndex === index) {
-                        this.activeSubjectIndex = null;
-                    } else {
-                        this.activeSubjectIndex = index;
-                    }
+                    this.activeSubjectIndex = (this.activeSubjectIndex === index) ? null : index;
                 },
 
                 calculateTotalMinutes() {
@@ -685,19 +508,13 @@
                     return this.t('rank4');
                 },
 
-                togglePomodoro() {
-                    this.pomodoroRunning = !this.pomodoroRunning;
-                },
-
+                togglePomodoro() { this.pomodoroRunning = !this.pomodoroRunning; },
                 resetPomodoro() {
                     this.pomodoroRunning = false;
                     this.pomodoroSeconds = 1500;
                     this.pomoMemeText = this.t('meme5');
                 },
-
-                closeDistractionOverlay() {
-                    this.showDistractionOverlay = false;
-                },
+                closeDistractionOverlay() { this.showDistractionOverlay = false; },
 
                 updatePomoMeme() {
                     if (this.pomodoroSeconds > 1200) this.pomoMemeText = this.t('meme1');
@@ -712,37 +529,23 @@
                     this.newTodoText = '';
                     this.saveTodos();
                 },
-
-                deleteTodo(index) {
-                    this.todos.splice(index, 1);
-                    this.saveTodos();
-                },
-
+                deleteTodo(index) { this.todos.splice(index, 1); this.saveTodos(); },
                 saveSubjects() { localStorage.setItem('study_subjects', JSON.stringify(this.subjects)); },
                 saveTodos() { localStorage.setItem('study_todos', JSON.stringify(this.todos)); },
 
                 generateAiRoast() {
                     if (!this.aiInputText.trim()) return;
-                    
-                    // Dillərə uyğun yumoristik süni intellekt cavab simulyasiyası
                     const roastsPool = {
                         az: [
                             "Bunun qısası odur ki, sən oxumasan da o bitki səndən daha çox iş görür və günəşdən enerji yığır. Get bir az kitab üzü aç.",
-                            "Kitabda bunu 4 səhifə yazıb səni qorxutmaq istəyiblər. Əslində demək istəyir ki, tapşırıqları vaxtında eləməsən gələcəkdə dırnaqarası mütəxəssis olacaqsan.",
-                            "Tərcüməsi: Bu mövzu imtahanda mütləq düşəcək və sən hələ də burda qeydlərini mənə analiz etdirirsən. Keç dərsinə!"
+                            "Kitabda bunu 4 səhifə yazıb səni qorxutmaq istəyiblər. Əslində demək istəyir ki, vaxtında oxu yoxsa gec olacaq.",
+                            "Tərcüməsi: Bu mövzu imtahanda mütləq düşəcək və sən hələ də burda vaxt itirirsən. Keç dərsinə!"
                         ],
                         en: [
-                            "Long story short: that plant is working way harder than you, absorbing solar panels while you sit here. Go read a book.",
-                            "They wrote 4 pages just to scare you. It basically means: if you don't study now, your future job will be automated anyway.",
-                            "Translation: This will absolutely be on the exam and you are here wasting time making me summarize it. Go study!"
-                        ],
-                        tr: [
-                            "Özeti şu: Sen yatarken o bitki güneş enerjisini sömürüp senden daha verimli çalışıyor. Azıcık kitap kapağı aç.",
-                            "Kitapta bunu 4 sayfa yazıp gözünü korkutmuşlar. Demek istiyor ki: Şimdi çalışmazsan gelecekte sadece boş yapacaksın.",
-                            "Tercümesi: Bu konu sınavda kesin çıkacak ve sen hala bana özet çıkarttırıyorsun. Hadi dersinin başına!"
+                            "Long story short: that plant is working way harder than you. Go read a book.",
+                            "Translation: This will absolutely be on the exam and you are here wasting time. Go study!"
                         ]
                     };
-
                     let selectPool = roastsPool[this.currentLang] || roastsPool['en'];
                     this.aiOutputText = selectPool[Math.floor(Math.random() * selectPool.length)];
                 },
@@ -760,10 +563,7 @@
                                 borderColor: '#2B2D42'
                             }]
                         },
-                        options: {
-                            responsive: true,
-                            plugins: { legend: { display: false } }
-                        }
+                        options: { responsive: true, plugins: { legend: { display: false } } }
                     });
                 },
 
